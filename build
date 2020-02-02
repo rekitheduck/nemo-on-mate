@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Message function
+msg () {
+	echo "************ $1 ************"
+}
+
+# # Installation prefix
+# if ! [ "$prefix" ]; then
+# 	prefix=/usr
+# fi
+
+build_component () {
+	cd "nemo"
+	msg "Patching nemo"
+	patch -p1 < ../nemo_on_mate.patch || return 1
+
+	msg "Building nemo"
+	dpkg-buildpackage --no-sign || return 1
+
+	cd ..
+
+	return 0
+}
+
+build_component "nemo" || { msg "nemo compilation failed" && exit 1; }
+exit 0

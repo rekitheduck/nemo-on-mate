@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Message function
+msg () {
+	echo "************ $1 ************"
+}
+
+# # Installation prefix
+# if ! [ "$prefix" ]; then
+# 	prefix=/usr
+# fi
+
+install_component () {
+	msg "Installing nemo"
+	
+	sudo dpkg -i libnemo-extension1_*.deb
+	sudo dpkg -i nemo-data_*.deb
+	sudo dpkg -i nemo_*.deb
+
+	msg "Installing Glib schemas"
+
+	sudo cp "org.nemo.gschema.xml" "/usr/share/glib-2.0/schemas"
+	sudo cp "org.cinnamon.desktop.background.gschema.xml" "/usr/share/glib-2.0/schemas"
+	sudo cp "org.cinnamon.desktop.default-applications.gschema.xml" "/usr/share/glib-2.0/schemas"
+	sudo cp "org.cinnamon.desktop.interface.gschema.xml" "/usr/share/glib-2.0/schemas"
+	sudo cp "org.cinnamon.desktop.lockdown.gschema.xml" "/usr/share/glib-2.0/schemas"
+	sudo cp "org.cinnamon.desktop.media-handling.gschema.xml" "/usr/share/glib-2.0/schemas"
+	sudo cp "org.cinnamon.desktop.privacy.gschema.xml" "/usr/share/glib-2.0/schemas"
+
+	# Recompiles all schemas
+	sudo glib-compile-schemas "/usr/share/glib-2.0/schemas"
+
+	return 0
+}
+
+install_component "nemo" || { msg "nemo installation failed" && exit 1; }
+exit 0

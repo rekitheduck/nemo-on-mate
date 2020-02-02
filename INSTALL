@@ -1,0 +1,16 @@
+#!/bin/bash
+
+die () {
+	echo "$1: Problem encountered while installing nemo-on-mate"
+	exit 1
+}
+
+./prerequisites	|| die "prerequisites"
+
+./fetch 	|| die "fetch"
+./build 	|| die "build"
+./install 	|| die "install"
+
+echo "Everything seems to be fine. Thank you for using this script."
+
+exit 0

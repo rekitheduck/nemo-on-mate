@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Message function
+msg () {
+	echo "************ $1 ************"
+}
+
+# # Installation prefix
+# if ! [ "$prefix" ]; then
+# 	prefix=/usr
+# fi
+
+uninstall_component () {
+	msg "Uninstalling nemo"
+	
+	sudo apt remove nemo nemo-data libnemo-extension1  || return 1
+
+	return 0
+}
+
+uninstall_component "nemo" || { msg "nemo removal failed" && exit 1; }
+msg "Uninstall complete"
+exit 0

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Message function
+msg () {
+	echo "************ $1 ************"
+}
+
+
+
+fetch_component () {
+    if [ -d "nemo/.git" ] ; then
+        cd "nemo"
+		msg "Cleaning nemo"
+		sudo chown -R $USER .
+		git clean -fdx
+		git reset --hard origin/master
+		git pull
+        cd ..
+	else
+		rm -rf "nemo"
+                msg "Downloading nemo"
+                git clone https://github.com/linuxmint/nemo || return 1
+    fi
+    return 0
+}
+
+fetch_component "nemo" || { msg "nemo download problem"; exit 1; }
+exit 0
